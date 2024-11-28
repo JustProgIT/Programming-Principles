@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "product_id": 1,
+        "quantity": 2,
+        "date": "Mon Nov 25 11:30:12 2024"
+    },
+    {
+        "id": 2,
+        "product_id": 3,
+        "quantity": 4,
+        "date": "Mon Nov 25 11:34:32 2024"
+    },
+    {
+        "id": 3,
+        "product_id": 2,
+        "quantity": 200,
+        "date": "Mon Nov 25 14:28:22 2024"
+    }
+]

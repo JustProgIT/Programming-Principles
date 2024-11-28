@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1, 
+        "name": "Shopee", 
+        "contact": "+601123456"
+    }, 
+    {
+        "id": 2, 
+        "name": "Lazada", 
+        "contact": "+6012345"
+    }, 
+    {
+        "id": 3, 
+        "name": "Shopify", 
+        "contact": "+601234"
+    }
+]

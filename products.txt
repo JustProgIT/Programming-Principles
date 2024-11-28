@@ -1,0 +1,23 @@
+[
+    {
+        "id": 1,
+        "name": "flour",
+        "description": "for bread",
+        "quantity": 10,
+        "price": 4
+    },
+    {
+        "id": 2,
+        "name": "eggs",
+        "description": "casual eggs",
+        "quantity": 10,
+        "price": 11
+    },
+    {
+        "id": 3,
+        "name": "milk",
+        "description": "cow milk",
+        "quantity": 10,
+        "price": 8
+    }
+]

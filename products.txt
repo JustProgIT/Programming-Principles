@@ -19,5 +19,33 @@
         "description": "cow milk",
         "quantity": 10,
         "price": 8
+    },
+    {
+        "id": 4,
+        "name": "Beer",
+        "description": "Expensive beer 1985",
+        "quantity": 3,
+        "price": 38
+    },
+    {
+        "id": 5,
+        "name": "Fries",
+        "description": "KFC Fries",
+        "quantity": 2,
+        "price": 4
+    },
+    {
+        "id": 6,
+        "name": "Soup",
+        "description": "Chicken Soup",
+        "quantity": 2,
+        "price": 30
+    },
+    {
+        "id": 7,
+        "name": "Napkins Eazi",
+        "description": "Clean napkins",
+        "quantity": 27,
+        "price": 2
     }
 ]

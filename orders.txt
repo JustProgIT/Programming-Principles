@@ -16,5 +16,23 @@
         "product_id": 2,
         "quantity": 200,
         "date": "Mon Nov 25 14:28:22 2024"
+    },
+    {
+        "id": 4,
+        "product_id": 4,
+        "quantity": 2,
+        "date": "Wed Dec 18 23:45:50 2024"
+    },
+    {
+        "id": 5,
+        "product_id": 5,
+        "quantity": 3,
+        "date": "Wed Dec 18 23:48:16 2024"
+    },
+    {
+        "id": 6,
+        "product_id": 7,
+        "quantity": 3,
+        "date": "Thu Dec 19 00:30:00 2024"
     }
 ]

@@ -20,7 +20,7 @@
         "name": "Milk",
         "description": "Cow milk",
         "supplier_id": 3,
-        "quantity": 7,
+        "quantity": 0,
         "price": 8
     },
     {
@@ -30,5 +30,21 @@
         "supplier_id": 3,
         "quantity": 80,
         "price": 23
+    },
+    {
+        "id": 5,
+        "name": "Phone",
+        "description": "Samsung",
+        "supplier_id": 4,
+        "quantity": 9,
+        "price": 3000
+    },
+    {
+        "id": 6,
+        "name": "Milk",
+        "description": "Chicken milk",
+        "supplier_id": 2,
+        "quantity": 10,
+        "price": 10
     }
 ]

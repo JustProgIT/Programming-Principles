@@ -2,37 +2,29 @@
     {
         "id": 1,
         "product_id": 1,
-        "quantity": 2,
-        "date": "Mon Nov 25 11:30:12 2024"
+        "quantity": 3,
+        "cost": 12,
+        "date": "Fri Dec 20 19:59:54 2024"
     },
     {
         "id": 2,
         "product_id": 3,
-        "quantity": 4,
-        "date": "Mon Nov 25 11:34:32 2024"
+        "quantity": 3,
+        "cost": 24,
+        "date": "Fri Dec 20 20:04:37 2024"
     },
     {
         "id": 3,
-        "product_id": 2,
-        "quantity": 200,
-        "date": "Mon Nov 25 14:28:22 2024"
+        "product_id": 3,
+        "quantity": 12,
+        "cost": 96,
+        "date": "Fri Dec 20 21:10:31 2024"
     },
     {
         "id": 4,
         "product_id": 4,
-        "quantity": 2,
-        "date": "Wed Dec 18 23:45:50 2024"
-    },
-    {
-        "id": 5,
-        "product_id": 5,
-        "quantity": 3,
-        "date": "Wed Dec 18 23:48:16 2024"
-    },
-    {
-        "id": 6,
-        "product_id": 7,
-        "quantity": 3,
-        "date": "Thu Dec 19 00:30:00 2024"
+        "quantity": 20,
+        "cost": 460,
+        "date": "Fri Dec 20 21:12:31 2024"
     }
 ]

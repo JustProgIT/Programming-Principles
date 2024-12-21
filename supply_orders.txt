@@ -1,0 +1,1 @@
+[{'id': 2, 'product_id': 3, 'quantity': 3, 'cost': 24, 'date': 'Fri Dec 20 20:04:37 2024'}, {'id': 3, 'product_id': 3, 'quantity': 12, 'cost': 96, 'date': 'Fri Dec 20 21:10:31 2024'}, {'id': 4, 'product_id': 4, 'quantity': 20, 'cost': 460, 'date': 'Fri Dec 20 21:12:31 2024'}]

@@ -1,1 +1,1 @@
-[{"id": 1, "name": "BreadySupplier", "contact": "+601123456"}, {"id": 2, "name": "Chicken Goods", "contact": "+6012345"}, {"id": 3, "name": "Job for cows", "contact": "+601234"}, {"id": 4, "name": "Technology World", "contact": "+6015015011"}, {"id": 5, "name": "Driving Experience", "contact": "+120003041"}]
+[{"id": 1, "name": "Cow's business", "contact": "+6010101010"}, {"id": 2, "name": "Raining Sweets", "contact": "+6011100001"}, {"id": 3, "name": "Chicken Deal", "contact": "+600045405555"}]

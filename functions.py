@@ -195,6 +195,18 @@ def addNewOrder(product_name, quantity):                                        
         
     return order_list
 
+def checkForDigitMoreZero(value):
+    if value == '':
+        return 'ok'
+    if value.isdigit():
+        value = int(value)
+        if value > 0:
+            return value
+        print('Not acceptable number! Try again...')  
+        return 0
+    print('This is not a number! Try again...')  
+    return 0
+
 # def generateReportSupplyOrder():
 #     product_list = getProductsDetails()
 #     supplier_list = getSupplierDetails()

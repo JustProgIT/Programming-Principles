@@ -1,5 +1,3 @@
-import json
-from datetime import datetime
 from functions import *
 
 while True:
@@ -44,29 +42,19 @@ while True:
                 print('It should be an integer! Try again...')                                                                                                  #if not integer asks again
         while True:
             new_product_quantity = input('Type the quantity of the product: ')                                                                                  #Asks for quantity of new product
-
-            if new_product_quantity.isdigit():                                                                                                                  #Check if quantity is int
-                new_product_quantity = int(new_product_quantity)                                                                                                #Convert to int
-                if new_product_quantity <= 0:                                                                                                                   #Check if qunantity less or 0
-                    print('Not acceptable amount! Try again...')                                                                                                #Asks again
-                    continue
-                else:
-                    break                                                                                                                                       #Quantity allowed
+            new_product_quantity = checkForDigitMoreZero(new_product_quantity)
+            if new_product_quantity == 0:
+                continue
             else:
-                print('The quantity should be a number!')                                                                                                       #Ask again, bc not int
+                break
         while True:
             new_product_price = input('Type the price of the product: ')                                                                                        #Ask for price of new product
-
-            if new_product_price.isdigit():                                                                                                                     #Check if price is int
-                price = int(price)                                                                                                                              #Convert to int
-                if price <= 0:                                                                                                                                  #Check if price is acceptable
-                    print('Not acceptable price! Try again...')                                                                                                 #Asks again for price
-                    continue
-                else:
-                    addNewProduct(new_product_name, new_product_description, product_supplier_id, new_product_quantity, new_product_price)                      #Adds new product with provided details
-                    break
+            new_product_price = checkForDigitMoreZero(new_product_price)
+            if new_product_price == 0:
+                continue
             else:
-                print('The price should be a number!')                                                                                                          #Asks again if price is not int
+                addNewProduct(new_product_name, new_product_description, product_supplier_id, new_product_quantity, new_product_price)                          #Adds new product with provided details
+                break
         showProducts()                                                                                                                                          #Shows updated list of products with new product
     elif choose_action == '5' or choose_action.lower().replace(' ', '') == 'update' or choose_action.lower().replace(' ', '') == 'updateproduct':               #Starts update product if 5
         while True:
@@ -97,26 +85,24 @@ while True:
                         product_description = input('Type the new brief DESCRIPTION of the product (or leave empty if no changes): ')                           #Asks for new description of product
                         while True:
                             product_quantity = input('Type the new QUANTITY of the product (or leave empty if no changes): ')                                   #Asks for new quantity of product
-                            if product_price == "":                                                                                                             #Check if quantity is empty then ok
+                            if product_quantity == "":                                                                                                          #Check if quantity is empty then ok
                                 break   
-                            elif product_quantity.isdigit():                                                                                                    #Check if quantity is int
-                                product_quantity = int(product_quantity)                                                                                        #Convert to int
-                                if product_quantity <= 0:                                                                                                       #Check if quantity is acceptable
-                                    print('Not acceptable amount! Try again...')
-                                    continue
-                                else:
-                                    break                                                                                                                       #if acceptable then ok
+                            product_quantity = checkForDigitMoreZero(product_quantity)
+                            if product_quantity == 0:
+                                continue
+                            else:
+                                break
                         while True:
                             product_price = input('Type the new PRICE of the product (or leave empty if no changes): ')                                         #Asks for new price of product
                             if product_price == "":                                                                                                             #Check if price is empty then ok
                                 break
-                            elif product_price.isdigit():                                                                                                       #Check if price is int
-                                product_price = int(product_price)                                                                                              #Convert to int
-                                if product_price <= 0:                                                                                                          #Check if price is acceptable
-                                    print('Not acceptable amount! Try again...')
-                                    continue
-                                else:
-                                    break                                                                                                                       #if acceptable then ok
+                            if product_price == "":                                                                                                             #Check if quantity is empty then ok
+                                break   
+                            product_price = checkForDigitMoreZero(product_price)
+                            if product_price == 0:
+                                continue
+                            else:
+                                break                                                                                                                           #if acceptable then ok
 
                         product_name = None if product_name == '' else product_name                                                                             #Convert to None if variables are empty
                         product_description = None if product_description == '' else product_description
@@ -179,6 +165,7 @@ while True:
         supplier_list = getSupplierDetails()                                                                                                                    #Get supplier list
         order_list = getOrderDetails()                                                                                                                          #Get order list
         supplier_order_list = []                                                                                                                                #Variable for orders of one suppliers
+        total_profit = 0
         showSuppliers()                                                                                                                                         #Show suppliers available
         while True:
             supplier_id = input('Type the id of the supplier: ')                                                                                                #Asks for id of supplier
@@ -197,11 +184,13 @@ while True:
             if product['supplier_id'] == supplier_id:                                                                                                           #Check if product belongs to requested supplier
                 for order in order_list:                                                                                                                        #Goes through each order
                     if  order['product_id'] == product['id']:                                                                                                   #Checks if product in order is given by requested supplier
+                        total_profit += order['cost']
                         supplier_order_list.append(order)                                                                                                       #Add the records of orders provided by requested supplier to variable
         if len(supplier_order_list) >= 1:                                                                                                                       #Checks if report contains of any orders
             with open('reports/supply_orders.txt', 'w') as file:                                                                                                #Generates report into supplyorders.txt file
                 file.write(str(supplier_order_list))
             viewReportSupplyOrders()                                                                                                                            #Views the report
+            print(f'The total profit: {total_profit}')
             print('Succesfully generated report!')
         else:
             print('No records of order from this supplier!')                                                                                                    #Prints that no orders were by the supplier

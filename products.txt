@@ -1,50 +1,34 @@
 [
     {
         "id": 1,
-        "name": "flour",
-        "description": "for bread",
+        "name": "Cheese",
+        "description": "Australian Cheese",
         "supplier_id": 1,
-        "quantity": 7,
-        "price": 4
+        "quantity": 13,
+        "price": 24
     },
     {
         "id": 2,
-        "name": "eggs",
-        "description": "casual eggs",
+        "name": "Honey cake",
+        "description": "Honey",
         "supplier_id": 2,
-        "quantity": 10,
-        "price": 11
+        "quantity": 0,
+        "price": 18
     },
     {
         "id": 3,
-        "name": "Milk",
-        "description": "Cow milk",
-        "supplier_id": 3,
-        "quantity": 0,
-        "price": 8
+        "name": "Apple",
+        "description": "Casual Apple",
+        "supplier_id": 2,
+        "quantity": 50,
+        "price": 20
     },
     {
         "id": 4,
-        "name": "Cheese",
-        "description": "Expensive cheese",
+        "name": "Eggs",
+        "description": "Chicken Eggs",
         "supplier_id": 3,
-        "quantity": 80,
-        "price": 23
-    },
-    {
-        "id": 5,
-        "name": "Phone",
-        "description": "Samsung",
-        "supplier_id": 4,
-        "quantity": 9,
-        "price": 3000
-    },
-    {
-        "id": 6,
-        "name": "Milk",
-        "description": "Chicken milk",
-        "supplier_id": 2,
-        "quantity": 10,
-        "price": 10
+        "quantity": 130,
+        "price": 3
     }
 ]

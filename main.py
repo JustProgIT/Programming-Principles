@@ -1,221 +1,213 @@
+import json
 from functions import *
 
 while True:
-    choose_action = input('''
-    Choose the action:
-    1 - View products
-    2 - View suppliers
-    3 - View orders
-    4 - Add new product
-    5 - Update product
-    6 - Add new supplier
-    7 - Place an order
-    8 - Report of supply orders
-    9 - Report of low stock items
-    0 - To exit the program
-                          
-    Type the number to perform required action: ''')                                                                                                            #Asking user to pick action
-    
-    if choose_action == '1' or choose_action.lower().replace(' ', '') == 'product' or choose_action.lower().replace(' ', '') == 'vp':
-        showProducts()                                                                                                                                          #If 1 shows products available
-    
-    elif choose_action == '2' or choose_action.lower().replace(' ', '') == 'supplier' or choose_action.lower().replace(' ', '') == 'vs':
-        showSuppliers()                                                                                                                                         #If  2 shows suppliers available
-    
-    elif choose_action == '3' or choose_action.lower().replace(' ', '') == 'order' or choose_action.lower().replace(' ', '') == 'vo':
-        showOrders()                                                                                                                                            #If 3 shows orders available
-    
-    elif choose_action == '4' or choose_action.lower().replace(' ', '') == 'newproduct' or choose_action.lower().replace(' ', '') == 'np':
-        supplier_list = getSupplierDetails()                                                                                                                    #If 4 gets list of suppliers
-        new_product_name = input('Type the name of the product: ')                                                                                              #Ask name of new product
-        new_product_description = input('Type the brief description of the product: ')                                                                          #Ask new description
-        showSuppliers()                                                                                                                                         #Shows suppliers available
-        while True:
-            product_supplier_id = input('Type the id of the supplier: ')                                                                                        #Asks for the id of supplier who produce new product
-            if product_supplier_id.isdigit():                                                                                                                   #Checks if user typed integer
-                product_supplier_id = int(product_supplier_id)                                                                                                  #Converts string to integer
-                for supplier in supplier_list:                                                                                                                  #Go through each supplier
-                    if supplier['id'] == product_supplier_id:                                                                                                   #Check if supplier exists
-                        break
-                else:
-                    print('No supplier with such id! Try again...')                                                                                             #if not asks again
+    if programIsReady():
+        choose_action = input('''
+        Choose the action:
+        1 - View products
+        2 - View suppliers
+        3 - View orders
+        4 - Add new product
+        5 - Update product
+        6 - Add new supplier
+        7 - Place an order
+        8 - Report of supply orders
+        9 - Report of low stock items
+        0 - To exit the program
+                            
+        Type the number to perform required action: ''')                                                                                                            #Asking user to pick action
+        
+        
+        if choose_action == '1' or choose_action.lower().replace(' ', '') == 'product' or choose_action.lower().replace(' ', '') == 'vp':
+            showProducts()                                                                                                                                          #If 1 shows products available
+        
+        elif choose_action == '2' or choose_action.lower().replace(' ', '') == 'supplier' or choose_action.lower().replace(' ', '') == 'vs':
+            showSuppliers()                                                                                                                                         #If  2 shows suppliers available
+        
+        elif choose_action == '3' or choose_action.lower().replace(' ', '') == 'order' or choose_action.lower().replace(' ', '') == 'vo':
+            showOrders()                                                                                                                                            #If 3 shows orders available
+        
+        elif choose_action == '4' or choose_action.lower().replace(' ', '') == 'newproduct' or choose_action.lower().replace(' ', '') == 'np':
+            new_product_name = input('Type the name of the product: ')                                                                                              #Ask name of new product
+            new_product_description = input('Type the brief description of the product: ')                                                                          #Ask new description
+            showSuppliers()                                                                                                                                         #Shows suppliers available
+            while True:
+                supplier_id = input('Type the id of the supplier: ')                                                                                                #Asks for the id of supplier who produce new product
+                supplier_id = checkForSupplier(supplier_id)
+                if supplier_id == 0:
                     continue
-                break
-            else:
-                print('It should be an integer! Try again...')                                                                                                  #if not integer asks again
-        while True:
-            new_product_quantity = input('Type the quantity of the product: ')                                                                                  #Asks for quantity of new product
-            new_product_quantity = checkForDigitMoreZero(new_product_quantity)
-            if new_product_quantity == 0:
-                continue
-            else:
-                break
-        while True:
-            new_product_price = input('Type the price of the product: ')                                                                                        #Ask for price of new product
-            new_product_price = checkForDigitMoreZero(new_product_price)
-            if new_product_price == 0:
-                continue
-            else:
-                addNewProduct(new_product_name, new_product_description, product_supplier_id, new_product_quantity, new_product_price)                          #Adds new product with provided details
-                break
-        showProducts()                                                                                                                                          #Shows updated list of products with new product
-    
-    elif choose_action == '5' or choose_action.lower().replace(' ', '') == 'update' or choose_action.lower().replace(' ', '') == 'updateproduct':               #Starts update product if 5
-        while True:
-            showProducts()                                                                                                                                      #Shows products available
-            product_list = getProductsDetails()                                                                                                                 #Gets product list
-            product_id = input('Type the id of the product you want to update: ')                                                                               #Asks for user to choose id of product to edit
-            if product_id.isdigit():                                                                                                                            #Checks if it is int
-                product_id = int(product_id)                                                                                                                    #Converts to int if int
-            else:
-                print('Not an id! Try again...')                                                                                                                #Asks again for id
-                continue
-            delete_product_choice = 0                                                                                                                           #Variable for delete choice
-            for product_items in product_list:                                                                                                                  #Goes through every product
-                if product_items['id'] == product_id:                                                                                                           #Checks if product exists
-                    while True: 
-                        delete_product_choice = input('Do you want to delete this product (y/n): ')                                                             #Asks to choose delete or not
-                        if delete_product_choice == '1' or delete_product_choice.lower() == 'y':                                                                #If y then delete
-                            deleteProduct(product_id)
-                            showProducts()                                                                                                                      #Show new products with deleted product
-                            break
-                        elif delete_product_choice == '0' or delete_product_choice.lower() == 'n':                                                              #If n then goes to edit settings
-                            break
-                        else:
-                            print('I dont understand! Type y or n...')                                                                                          #Asks again if not y or n
-                    if delete_product_choice == 'n' or delete_product_choice == 0:
-                        product_name = input('Type the new NAME of the product (or leave empty if no changes): ')                                               #Asks for new name of product
-                        product_description = input('Type the new brief DESCRIPTION of the product (or leave empty if no changes): ')                           #Asks for new description of product
-                        while True:
-                            product_quantity = input('Type the new QUANTITY of the product (or leave empty if no changes): ')                                   #Asks for new quantity of product
-                            if product_quantity == "":                                                                                                          #Check if quantity is empty then ok
-                                break   
-                            product_quantity = checkForDigitMoreZero(product_quantity)
-                            if product_quantity == 0:
-                                continue
-                            else:
-                                break
-                        while True:
-                            product_price = input('Type the new PRICE of the product (or leave empty if no changes): ')                                         #Asks for new price of product
-                            if product_price == "":                                                                                                             #Check if price is empty then ok
-                                break
-                            product_price = checkForDigitMoreZero(product_price)
-                            if product_price == 0:
-                                continue
-                            else:
-                                break                                                                                                                           #if acceptable then ok
-
-                        product_name = None if product_name == '' else product_name                                                                             #Convert to None if variables are empty
-                        product_description = None if product_description == '' else product_description
-                        product_price = None if product_price == '' else product_price
-                        product_quantity = None if product_quantity == '' else product_quantity
-
-                        updateProduct(product_id, product_name, product_description, product_quantity, product_price)                                           #Update the product details
-                        showProducts()                                                                                                                          #View products with updated product
-                        break
+                else:
+                    break                                                                                                                                           #if not integer asks again
+            while True:
+                new_product_quantity = input('Type the quantity of the product: ')                                                                                  #Asks for quantity of new product
+                new_product_quantity = checkForDigitMoreZero(new_product_quantity)
+                if new_product_quantity == 0:
+                    continue
+                else:
                     break
-            else:
-                print('No such product! Try again...')                                                                                                          #Asks again for exisiting product
-                continue
-            break
+            while True:
+                new_product_price = input('Type the price of the product: ')                                                                                        #Ask for price of new product
+                new_product_price = checkForDigitMoreZero(new_product_price)
+                if new_product_price == 0:
+                    continue
+                else:
+                    addNewProduct(new_product_name, new_product_description, supplier_id, new_product_quantity, new_product_price)                                  #Adds new product with provided details
+                    break
+            showProducts()                                                                                                                                          #Shows updated list of products with new product
+        
+        elif choose_action == '5' or choose_action.lower().replace(' ', '') == 'update' or choose_action.lower().replace(' ', '') == 'updateproduct':               #Starts update product if 5
+            while True:
+                showProducts()                                                                                                                                      #Shows products available
+                product_list = getProductsDetails()                                                                                                                 #Gets product list
+                product_id = input('Type the id of the product you want to update: ')                                                                               #Asks for user to choose id of product to edit
+                if product_id.isdigit():                                                                                                                            #Checks if it is int
+                    product_id = int(product_id)                                                                                                                    #Converts to int if int
+                else:
+                    print('Not an id! Try again...')                                                                                                                #Asks again for id
+                    continue
+                delete_product_choice = 0                                                                                                                           #Variable for delete choice
+                for product_item in product_list:                                                                                                                   #Goes through every product
+                    if product_item['id'] == product_id:                                                                                                            #Checks if product exists
+                        while True: 
+                            delete_product_choice = input('Do you want to delete this product (y/n): ')                                                             #Asks to choose delete or not
+                            if delete_product_choice == '1' or delete_product_choice.lower() == 'y':                                                                #If y then delete
+                                deleteProduct(product_id)
+                                showProducts()                                                                                                                      #Show new products with deleted product
+                                break
+                            elif delete_product_choice == '0' or delete_product_choice.lower() == 'n':                                                              #If n then goes to edit settings
+                                break
+                            else:
+                                print('I dont understand! Type y or n...')                                                                                          #Asks again if not y or n
+                        if delete_product_choice == 'n' or delete_product_choice == 0:
+                            product_name = input('Type the new NAME of the product (or leave empty if no changes): ')                                               #Asks for new name of product
+                            product_description = input('Type the new brief DESCRIPTION of the product (or leave empty if no changes): ')                           #Asks for new description of product
+                            while True:
+                                product_quantity = input('Type the new QUANTITY of the product (or leave empty if no changes): ')                                   #Asks for new quantity of product
+                                if product_quantity == "":                                                                                                          #Check if quantity is empty then ok
+                                    break   
+                                product_quantity = checkForDigitMoreZero(product_quantity)
+                                if product_quantity == 0:
+                                    continue
+                                else:
+                                    break
+                            while True:
+                                product_price = input('Type the new PRICE of the product (or leave empty if no changes): ')                                         #Asks for new price of product
+                                if product_price == "":                                                                                                             #Check if price is empty then ok
+                                    break
+                                product_price = checkForDigitMoreZero(product_price)
+                                if product_price == 0:
+                                    continue
+                                else:
+                                    break                                                                                                                           #if acceptable then ok
 
-    elif choose_action == '6' or choose_action.lower().replace(' ', '') == 'newsupplier' or choose_action.lower().replace(' ', '') == 'ns':                     #If 6 then add new supplier
-        new_supplier_name = input('Type the name of the supplier: ')                                                                                            #Asks for supplier name
-        while True:
-            new_supplier_contact = input('Type the contact of the supplier (including + sign): ')                                                               #Asks for supplier contact number
-            if 10 <= len(new_supplier_contact) <= 15 and new_supplier_contact[0] == '+' and new_supplier_contact[1::].isdigit():                                #Checks if contact looks real
-                addNewSupplier(new_supplier_name, new_supplier_contact)                                                                                         #Adds new supplier
-                break
-            else:
-                print('Phone number is incorrect or in the incorrect form. Try other number...')                                                                #Asks again for contact number
-        showSuppliers()
-    
-    elif choose_action == '7' or choose_action.lower().replace(' ', '') == 'placeorder' or choose_action.lower().replace(' ', '') == 'po':                      #If 7 then place new order
-        while True: 
-            showProducts()                                                                                                                                      #show products have
-            product_list = getProductsDetails()                                                                                                                 #get lists of products
-            product_id = input('Type the id of the product you want to add into order: ')                                                                       #getting id user wants to order
-            if product_id.isdigit():                                                                                                                            #check if id is number
-                product_id = int(product_id)                                                                                                                    #convert to int if it is number
-            else:                                                                   
-                print('Not an id! Try again...')                                                                                                                #if not then print error
-                continue                                                                                                                                        #continue asking the id
-            product_quantity_real = 0                                                                                                                           #new variable
-            for product_item in product_list:                                                                                                                   #going through the list of products
-                if product_item['id'] == product_id:                                                                                                            #check if the id exists
-                    product_quantity_real = int(product_item['quantity'])                                                                                       #assign the variable with the quantity of requested items available
-                    price_of_product = product_item['price']                
-                    while True:                                                                             
-                        quantity = input('Type the quantity of the product you want to order: ')                                                                #getting quantity use wants to order
-                        if quantity.isdigit():                                                                                                                  #check if user typed number
-                            quantity = int(quantity)                                                                                                            #make int if number
-                            if product_quantity_real >= quantity:                                                                                               #check if the quantity user wants is sufficient to what have in storage
-                                updateProduct(product_id, new_quantity=product_quantity_real - quantity)                                                        #updates the amount of products in the storage
-                                break                                                                                                                           #finish and move to placing order if everythin good
-                            else:                                                                                                                               
-                                print('Not enough in storage! Try different amount...')                                                                         #print error if not sufficent amount
-                        else:                                                                   
-                            print('Not an number! Try again...')                                                                                                #print error if quantity is not a number
-                    addNewOrderById(product_id, quantity, price_of_product*quantity)                                                                            #add new order if everything good
-                    break                                                                                                                                       #finish with this action
-            else:                                                                   
-                print('No such product! Try again...')                                                                                                          #print error if no product with requested id
-                continue
-            break
+                            product_name = None if product_name == '' else product_name                                                                             #Convert to None if variables are empty
+                            product_description = None if product_description == '' else product_description
+                            product_price = None if product_price == '' else product_price
+                            product_quantity = None if product_quantity == '' else product_quantity
 
-    elif choose_action == '8' or choose_action.lower().replace(' ', '') == 'supplyorder' or choose_action.lower().replace(' ', '') == 'so':                     #If 8 then make report of supplier orders
-        product_list = getProductsDetails()                                                                                                                     #Get product list
-        supplier_list = getSupplierDetails()                                                                                                                    #Get supplier list
-        order_list = getOrderDetails()                                                                                                                          #Get order list
-        supplier_order_list = []                                                                                                                                #Variable for orders of one suppliers
-        total_profit = 0
-        showSuppliers()                                                                                                                                         #Show suppliers available
-        while True:
-            supplier_id = input('Type the id of the supplier: ')                                                                                                #Asks for id of supplier
-            if supplier_id.isdigit():                                                                                                                           #Check if is int
-                supplier_id = int(supplier_id)                                                                                                                  #Convert to int
-                for supplier in supplier_list:                                                                                                                  #Goes through each supplier
-                    if supplier['id'] == supplier_id:                                                                                                           #Checks if supplier exists
+                            updateProduct(product_id, product_name, product_description, product_quantity, product_price)                                           #Update the product details
+                            showProducts()                                                                                                                          #View products with updated product
+                            break
                         break
                 else:
-                    print('No supplier with such id! Try again...')                                                                                             #Asks again if no suppliers with given id
+                    print('No such product! Try again...')                                                                                                          #Asks again for exisiting product
                     continue
                 break
-            else:
-                print('It should be an integer! Try again...')                                                                                                  #Asks for id of supplier
-        for product in product_list:                                                                                                                            #Goes through each product
-            if product['supplier_id'] == supplier_id:                                                                                                           #Check if product belongs to requested supplier
-                for order in order_list:                                                                                                                        #Goes through each order
-                    if  order['product_id'] == product['id']:                                                                                                   #Checks if product in order is given by requested supplier
-                        total_profit += order['cost']
-                        supplier_order_list.append(order)                                                                                                       #Add the records of orders provided by requested supplier to variable
-        if len(supplier_order_list) >= 1:                                                                                                                       #Checks if report contains of any orders
-            with open('reports/supply_orders.txt', 'w') as file:                                                                                                #Generates report into supplyorders.txt file
-                file.write(str(supplier_order_list))
-            viewReportSupplyOrders()                                                                                                                            #Views the report
-            print(f'The total profit: {total_profit}')
-            print('Succesfully generated report!')
-        else:
-            print('No records of order from this supplier!')                                                                                                    #Prints that no orders were by the supplier
 
-    elif choose_action == '9' or choose_action.lower().replace(' ', '') == 'lowstock' or choose_action.lower().replace(' ', '') == 'ls':                        #If 9 then say low stock items
-        product_list = getProductsDetails()                                                                                                                     #Gets product list
-        low_stock_items = []                                                                                                                                    #Variable for products which are low in stock
-        for product in product_list:                                                                                                                            #Goes through every product
-            if product['quantity'] < 10:                                                                                                                        #Check if quantity of products is less than 10
-                low_stock_items.append(product['name'])                                                                                                         #Add low stock items to variable
-        if len(low_stock_items) > 1:                                                                                                                            #Check if several products are low on stock
-            for low_stock_item in low_stock_items:                                                                                                              
-                print(f'{low_stock_item}', end=' ')
-            print('are low in stock')
-        elif len(low_stock_items) == 1:                                                                                                                         #Check if only one product is low on stock
-            print(f'{low_stock_items[0]} is low on stock!')
-        else:                                                                                                                                                   #Check if no products are low in stock
-            print('There is enough items in storage!')
-    
-    elif choose_action == '0':                                                                                                                                  #If 0 then close program
-        print('Goodbye!')
+        elif choose_action == '6' or choose_action.lower().replace(' ', '') == 'newsupplier' or choose_action.lower().replace(' ', '') == 'ns':                     #If 6 then add new supplier
+            new_supplier_name = input('Type the name of the supplier: ')                                                                                            #Asks for supplier name
+            while True:
+                new_supplier_contact = input('Type the contact of the supplier (including + sign): ')                                                               #Asks for supplier contact number
+                if 10 <= len(new_supplier_contact) <= 15 and new_supplier_contact[0] == '+' and new_supplier_contact[1::].isdigit():                                #Checks if contact looks real
+                    addNewSupplier(new_supplier_name, new_supplier_contact)                                                                                         #Adds new supplier
+                    break
+                else:
+                    print('Phone number is incorrect or in the incorrect form. Try other number...')                                                                #Asks again for contact number
+            showSuppliers()
+        
+        elif choose_action == '7' or choose_action.lower().replace(' ', '') == 'placeorder' or choose_action.lower().replace(' ', '') == 'po':                      #If 7 then place new order
+            while True: 
+                showProducts()                                                                                                                                      #show products have
+                product_list = getProductsDetails()                                                                                                                 #get lists of products
+                product_id = input('Type the id of the product you want to add into order: ')                                                                       #getting id user wants to order
+                if product_id.isdigit():                                                                                                                            #check if id is number
+                    product_id = int(product_id)                                                                                                                    #convert to int if it is number
+                else:                                                                   
+                    print('Not an id! Try again...')                                                                                                                #if not then print error
+                    continue                                                                                                                                        #continue asking the id
+                product_quantity_real = 0                                                                                                                           #new variable
+                for product_item in product_list:                                                                                                                   #going through the list of products
+                    if product_item['id'] == product_id:                                                                                                            #check if the id exists
+                        product_quantity_real = int(product_item['quantity'])                                                                                       #assign the variable with the quantity of requested items available
+                        price_of_product = product_item['price']                
+                        while True:                                                                             
+                            quantity = input('Type the quantity of the product you want to order: ')                                                                #getting quantity use wants to order
+                            if quantity.isdigit():                                                                                                                  #check if user typed number
+                                quantity = int(quantity)                                                                                                            #make int if number
+                                if product_quantity_real >= quantity:                                                                                               #check if the quantity user wants is sufficient to what have in storage
+                                    updateProduct(product_id, new_quantity=product_quantity_real - quantity)                                                        #updates the amount of products in the storage
+                                    break                                                                                                                           #finish and move to placing order if everythin good
+                                else:                                                                                                                               
+                                    print('Not enough in storage! Try different amount...')                                                                         #print error if not sufficent amount
+                            else:                                                                   
+                                print('Not an number! Try again...')                                                                                                #print error if quantity is not a number
+                        addNewOrderById(product_id, quantity, price_of_product*quantity)                                                                            #add new order if everything good
+                        break                                                                                                                                       #finish with this action
+                else:                                                                   
+                    print('No such product! Try again...')                                                                                                          #print error if no product with requested id
+                    continue
+                break
+
+        elif choose_action == '8' or choose_action.lower().replace(' ', '') == 'supplyorder' or choose_action.lower().replace(' ', '') == 'so':                     #If 8 then make report of supplier orders
+            product_list = getProductsDetails()                                                                                                                     #Get product list
+            order_list = getOrderDetails()                                                                                                                          #Get order list
+            supplier_order_list = []                                                                                                                                #Variable for orders of one suppliers
+            total_cost = 0
+            showSuppliers()                                                                                                                                         #Show suppliers available
+            while True:
+                supplier_id = input('Type the id of the supplier: ')                                                                                                #Asks for id of supplier
+                supplier_id = checkForSupplier(supplier_id)
+                if supplier_id == 0:
+                    continue
+                else:
+                    break
+            for product_item in product_list:                                                                                                                       #Goes through each product
+                if product_item['supplier_id'] == supplier_id:                                                                                                      #Check if product belongs to requested supplier
+                    for order_item in order_list:                                                                                                                   #Goes through each order
+                        if  order_item['product_id'] == product_item['id']:                                                                                         #Checks if product in order is given by requested supplier
+                            total_cost += order_item['cost']
+                            supplier_order_list.append(order_item)                                                                                                  #Add the records of orders provided by requested supplier to variable
+            if len(supplier_order_list) >= 1:                                                                                                                       #Checks if report contains of any orders
+                with open('reports/supply_orders.txt', 'w') as file:                                                                                                #Generates report into supplyorders.txt file
+                    json.dump(supplier_order_list, file, indent=4)
+                viewReportSupplyOrders()                                                                                                                            #Views the report
+                print(f'The total cost: {total_cost}')
+                print('Succesfully generated report!')
+            else:
+                print('No records of order from this supplier!')                                                                                                    #Prints that no orders were by the supplier
+
+        elif choose_action == '9' or choose_action.lower().replace(' ', '') == 'lowstock' or choose_action.lower().replace(' ', '') == 'ls':                        #If 9 then say low stock items
+            product_list = getProductsDetails()                                                                                                                     #Gets product list
+            low_stock_list = []                                                                                                                                     #Variable for products which are low in stock
+            for product_item in product_list:                                                                                                                       #Goes through every product
+                if product_item['quantity'] < 10:                                                                                                                   #Check if quantity of products is less than 10
+                    low_stock_list.append(product_item['name'])                                                                                                     #Add low stock items to variable
+            if len(low_stock_list) > 1:                                                                                                                             #Check if several products are low on stock
+                for low_stock_item in low_stock_list:                                                                                                              
+                    print(f'{low_stock_item}', end=' ')
+                print('are low in stock')
+            elif len(low_stock_list) == 1:                                                                                                                          #Check if only one product is low on stock
+                print(f'{low_stock_list[0]} is low on stock!')
+            else:                                                                                                                                                   #Check if no products are low in stock
+                print('There is enough items in storage!')
+        
+        elif choose_action == '0':                                                                                                                                  #If 0 then close program
+            print('Goodbye!')
+            break
+        
+        else:                                                                                                                                                       #Asks user to choose action again
+            print('Sorry I dont understand your choice, try nunbers...')
+    else:
+        print('The program is missing some of the text files! Please add them in order to start the program. Thanks...')
         break
-    
-    else:                                                                                                                                                       #Asks user to choose action again
-        print('Sorry I dont understand your choice, try nunbers...')

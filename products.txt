@@ -26,9 +26,25 @@
     {
         "id": 4,
         "name": "Eggs",
-        "description": "Chicken Eggs",
+        "description": null,
         "supplier_id": 3,
-        "quantity": 130,
+        "quantity": 105,
         "price": 3
+    },
+    {
+        "id": 5,
+        "name": "Iphone 6s",
+        "description": null,
+        "supplier_id": 4,
+        "quantity": 2,
+        "price": 500
+    },
+    {
+        "id": 6,
+        "name": "Chairs",
+        "description": null,
+        "supplier_id": 6,
+        "quantity": 18,
+        "price": 18
     }
 ]

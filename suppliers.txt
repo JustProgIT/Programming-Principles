@@ -1,1 +1,32 @@
-[{"id": 1, "name": "Cow's business", "contact": "+6010101010"}, {"id": 2, "name": "Raining Sweets", "contact": "+6011100001"}, {"id": 3, "name": "Chicken Deal", "contact": "+600045405555"}]
+[
+    {
+        "id": 1,
+        "name": "Cow's business",
+        "contact": "+6010101010"
+    },
+    {
+        "id": 2,
+        "name": "Sweets land",
+        "contact": "+6011100001"
+    },
+    {
+        "id": 3,
+        "name": "Chicken Deal",
+        "contact": "+600045405555"
+    },
+    {
+        "id": 4,
+        "name": "World of technologies",
+        "contact": "+60000000000001"
+    },
+    {
+        "id": 5,
+        "name": "Beautiful things",
+        "contact": "+60123456789"
+    },
+    {
+        "id": 6,
+        "name": "Eco Home",
+        "contact": "+6011112020000"
+    }
+]

@@ -30,7 +30,7 @@ def getReportSupplyProducts(supplier_id):
         else:
             print('No records of order from this supplier!')
     
-def getReportProductSales(supplier_id):
+def getReportSupplierSales(supplier_id):
     product_list = getProductsDetails()
     order_list = getOrderDetails()
     product_sale_list = []
@@ -49,7 +49,7 @@ def getReportProductSales(supplier_id):
                     total_cost += order_item['cost']
                     product_sale_list.append(order_item)                                                                                                  #Add the records of orders provided by requested supplier to variable
     if len(product_sale_list) >= 1:                                                                                                                       #Checks if report contains of any orders
-        with open('reports/supply_orders.txt', 'w') as file:                                                                                                #Generates report into supplyorders.txt file
+        with open('reports/supplier_sales.txt', 'w') as file:                                                                                                #Generates report into supplyorders.txt file
             json.dump(product_sale_list, file, indent=4)                                                                                                                          #Views the report
         print(f'The total cost: {total_cost}')
         print('Succesfully generated report!')

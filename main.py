@@ -12,7 +12,7 @@ while True:
         [5] - Update product
         [6] - Add new supplier
         [7] - Place an order
-        [8] - Report of product sales
+        [8] - Report of supplier sales
         [9] - Report of low stock items
         [10] - Report of supply products
         [0] - To exit the program
@@ -161,7 +161,7 @@ while True:
                     continue
                 break
 
-        elif choose_action == '8' or choose_action.lower().replace(' ', '') == 'productsales' or choose_action.lower().replace(' ', '') == 'ps':                     #If 8 then make report of supplier orders
+        elif choose_action == '8' or choose_action.lower().replace(' ', '') == 'suppliersales' or choose_action.lower().replace(' ', '') == 'ss':                     #If 8 then make report of supplier orders
             showSuppliers()                                                                                                                                         #Show suppliers available
             while True:
                 supplier_id = input('Type the id of the supplier: ')                                                                                                #Asks for id of supplier
@@ -170,7 +170,7 @@ while True:
                     continue
                 else:
                     break
-            getReportProductSales(supplier_id)
+            getReportSupplierSales(supplier_id)
 
         elif choose_action == '9' or choose_action.lower().replace(' ', '') == 'lowstock' or choose_action.lower().replace(' ', '') == 'ls':                        #If 9 then say low stock items
             product_list = getProductsDetails()                                                                                                                     #Gets product list

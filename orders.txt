@@ -40,5 +40,12 @@
         "quantity": 12,
         "cost": 216,
         "date": "Tue Dec 24 18:44:30 2024"
+    },
+    {
+        "id": 7,
+        "product_id": 3,
+        "quantity": 20,
+        "cost": 400,
+        "date": "Fri Dec 27 14:52:07 2024"
     }
 ]

@@ -2,39 +2,59 @@ import json
 from datetime import datetime
 
 def programIsReady():
-    supply_order_list = getReportSupplOrdersDetails()
     product_list = getProductsDetails()
     supplier_list = getSupplierDetails()
     order_list = getOrderDetails()
-    if supply_order_list and product_list and supplier_list and order_list:
+    if product_list and supplier_list and order_list:
         return 1
     else:
         return 0
 
-def getReportSupplOrdersDetails():                                                              #Function getting details of the generated report
-    try:
-        with open('reports/supply_orders.txt', 'r') as file:
-            data = file.read().replace("'", '"')
-        supply_orders = json.loads(data)
-        return supply_orders
-    except FileNotFoundError:
-        print('File supply_orders.txt doesnt exists...')
-        return None
-    
-def viewReportSupplyOrders():                                                                   #Views the details of the generated report
-    supply_orders_list = getReportSupplOrdersDetails()
+def getReportSupplyProducts(supplier_id):
     product_list = getProductsDetails()
-    if supply_orders_list and product_list:
-        for supply_order in supply_orders_list:
-            for product_item in product_list:
-                if product_item['id'] == supply_order['product_id']:
+    supply_products_list = []
+    if product_list:
+        for product_item in product_list:
+            if product_item['supplier_id'] == supplier_id:
+                supply_products_list.append(product_item)
+                print(f'''
+                ID: {product_item['id']}
+                    Name: {product_item['name']}
+                    Quantity: {product_item['quantity']}
+                    Price: {product_item['price']}
+                    ''')
+        if len(supply_products_list) >= 1:                                                                                                                       #Checks if report contains of any orders
+            with open('reports/supply_products.txt', 'w') as file:                                                                                                #Generates report into supplyorders.txt file
+                json.dump(supply_products_list, file, indent=4)
+            print('Succesfully generated report!')
+        else:
+            print('No records of order from this supplier!')
+    
+def getReportProductSales(supplier_id):
+    product_list = getProductsDetails()
+    order_list = getOrderDetails()
+    product_sale_list = []
+    total_cost = 0
+    for product_item in product_list:                                                                                                                       #Goes through each product
+        if product_item['supplier_id'] == supplier_id:                                                                                                      #Check if product belongs to requested supplier
+            for order_item in order_list:                                                                                                                   #Goes through each order
+                if  order_item['product_id'] == product_item['id']:                                                                                         #Checks if product in order is given by requested supplier
                     print(f'''
-                    ID: {supply_order['id']}
+                    ID: {order_item['id']}
                         Name: {product_item['name']}
-                        Quantity: {supply_order['quantity']}
-                        Cost: {supply_order['cost']}
-                        Date: {supply_order['date']}
+                        Quantity: {order_item['quantity']}
+                        Cost: {order_item['cost']}
+                        Date: {order_item['date']}
                         ''')
+                    total_cost += order_item['cost']
+                    product_sale_list.append(order_item)                                                                                                  #Add the records of orders provided by requested supplier to variable
+    if len(product_sale_list) >= 1:                                                                                                                       #Checks if report contains of any orders
+        with open('reports/supply_orders.txt', 'w') as file:                                                                                                #Generates report into supplyorders.txt file
+            json.dump(product_sale_list, file, indent=4)                                                                                                                          #Views the report
+        print(f'The total cost: {total_cost}')
+        print('Succesfully generated report!')
+    else:
+        print('No records of order from this supplier!')
 
 def getProductsDetails():                                                                       #Get Product list
     try:
@@ -155,7 +175,7 @@ def updateProduct(id, name=None, new_description=None, new_quantity=None, new_pr
             if product_item['id'] == id:
                 if name:
                     product_item['name'] = name
-                if product_item:
+                if new_description:
                     product_item['description'] = new_description
                 if new_quantity or new_quantity == 0:
                     product_item['quantity'] = int(new_quantity)

@@ -5,16 +5,17 @@ while True:
     if programIsReady():
         choose_action = input('''
         Choose the action:
-        1 - View products
-        2 - View suppliers
-        3 - View orders
-        4 - Add new product
-        5 - Update product
-        6 - Add new supplier
-        7 - Place an order
-        8 - Report of supply orders
-        9 - Report of low stock items
-        0 - To exit the program
+        [1] - View products
+        [2] - View suppliers
+        [3] - View orders
+        [4] - Add new product
+        [5] - Update product
+        [6] - Add new supplier
+        [7] - Place an order
+        [8] - Report of product sales
+        [9] - Report of low stock items
+        [10] - Report of supply products
+        [0] - To exit the program
                             
         Type the number to perform required action: ''')                                                                                                            #Asking user to pick action
         
@@ -106,6 +107,7 @@ while True:
                             product_price = None if product_price == '' else product_price
                             product_quantity = None if product_quantity == '' else product_quantity
 
+                            print(product_description)
                             updateProduct(product_id, product_name, product_description, product_quantity, product_price)                                           #Update the product details
                             showProducts()                                                                                                                          #View products with updated product
                             break
@@ -159,11 +161,7 @@ while True:
                     continue
                 break
 
-        elif choose_action == '8' or choose_action.lower().replace(' ', '') == 'supplyorder' or choose_action.lower().replace(' ', '') == 'so':                     #If 8 then make report of supplier orders
-            product_list = getProductsDetails()                                                                                                                     #Get product list
-            order_list = getOrderDetails()                                                                                                                          #Get order list
-            supplier_order_list = []                                                                                                                                #Variable for orders of one suppliers
-            total_cost = 0
+        elif choose_action == '8' or choose_action.lower().replace(' ', '') == 'productsales' or choose_action.lower().replace(' ', '') == 'ps':                     #If 8 then make report of supplier orders
             showSuppliers()                                                                                                                                         #Show suppliers available
             while True:
                 supplier_id = input('Type the id of the supplier: ')                                                                                                #Asks for id of supplier
@@ -172,20 +170,7 @@ while True:
                     continue
                 else:
                     break
-            for product_item in product_list:                                                                                                                       #Goes through each product
-                if product_item['supplier_id'] == supplier_id:                                                                                                      #Check if product belongs to requested supplier
-                    for order_item in order_list:                                                                                                                   #Goes through each order
-                        if  order_item['product_id'] == product_item['id']:                                                                                         #Checks if product in order is given by requested supplier
-                            total_cost += order_item['cost']
-                            supplier_order_list.append(order_item)                                                                                                  #Add the records of orders provided by requested supplier to variable
-            if len(supplier_order_list) >= 1:                                                                                                                       #Checks if report contains of any orders
-                with open('reports/supply_orders.txt', 'w') as file:                                                                                                #Generates report into supplyorders.txt file
-                    json.dump(supplier_order_list, file, indent=4)
-                viewReportSupplyOrders()                                                                                                                            #Views the report
-                print(f'The total cost: {total_cost}')
-                print('Succesfully generated report!')
-            else:
-                print('No records of order from this supplier!')                                                                                                    #Prints that no orders were by the supplier
+            getReportProductSales(supplier_id)
 
         elif choose_action == '9' or choose_action.lower().replace(' ', '') == 'lowstock' or choose_action.lower().replace(' ', '') == 'ls':                        #If 9 then say low stock items
             product_list = getProductsDetails()                                                                                                                     #Gets product list
@@ -202,6 +187,17 @@ while True:
             else:                                                                                                                                                   #Check if no products are low in stock
                 print('There is enough items in storage!')
         
+        elif choose_action == '10' or choose_action.lower().replace(' ', '') == 'supplyproducts' or choose_action.lower().replace(' ', '') == 'sp':                 #Shows all products that belongs to requested supplier
+            showSuppliers()
+            while True:
+                supplier_id = input('Type the id of the supplier: ')                                                                                                #Asks for id of supplier
+                supplier_id = checkForSupplier(supplier_id)
+                if supplier_id == 0:
+                    continue
+                else:
+                    break
+            getReportSupplyProducts(supplier_id)
+
         elif choose_action == '0':                                                                                                                                  #If 0 then close program
             print('Goodbye!')
             break

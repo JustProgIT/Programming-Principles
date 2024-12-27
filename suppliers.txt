@@ -28,5 +28,10 @@
         "id": 6,
         "name": "Eco Home",
         "contact": "+6011112020000"
+    },
+    {
+        "id": 7,
+        "name": "Suits perfect",
+        "contact": "+60112349274"
     }
 ]

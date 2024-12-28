@@ -170,22 +170,10 @@ while True:
                     continue
                 else:
                     break
-            getReportSupplierSales(supplier_id)
+            getReportSupplierSales (supplier_id)
 
         elif choose_action == '9' or choose_action.lower().replace(' ', '') == 'lowstock' or choose_action.lower().replace(' ', '') == 'ls':                        #If 9 then say low stock items
-            product_list = getProductsDetails()                                                                                                                     #Gets product list
-            low_stock_list = []                                                                                                                                     #Variable for products which are low in stock
-            for product_item in product_list:                                                                                                                       #Goes through every product
-                if product_item['quantity'] < 10:                                                                                                                   #Check if quantity of products is less than 10
-                    low_stock_list.append(product_item['name'])                                                                                                     #Add low stock items to variable
-            if len(low_stock_list) > 1:                                                                                                                             #Check if several products are low on stock
-                for low_stock_item in low_stock_list:                                                                                                              
-                    print(f'{low_stock_item}', end=' ')
-                print('are low in stock')
-            elif len(low_stock_list) == 1:                                                                                                                          #Check if only one product is low on stock
-                print(f'{low_stock_list[0]} is low on stock!')
-            else:                                                                                                                                                   #Check if no products are low in stock
-                print('There is enough items in storage!')
+            getReportLowStock()
         
         elif choose_action == '10' or choose_action.lower().replace(' ', '') == 'supplyproducts' or choose_action.lower().replace(' ', '') == 'sp':                 #Shows all products that belongs to requested supplier
             showSuppliers()
